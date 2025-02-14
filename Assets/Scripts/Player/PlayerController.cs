@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour
     [Header("Animations")]
     [SerializeField]
     Animator _animator;
+    [Header("Bullet")]
+    [SerializeField]
+    BulletController _bulletController;
+    [SerializeField]
+    Transform _shotPoint;
+
     Rigidbody2D _body;
     bool _isOnGround;
     Vector3 _originalScale;
@@ -30,6 +36,7 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
         Flip();
+        Fire();
     }
     void Move()
     {
@@ -56,6 +63,15 @@ public class PlayerController : MonoBehaviour
         else if (_body.linearVelocity.x < 0)
         {
             transform.localScale = new Vector3(-_originalScale.x, _originalScale.y, _originalScale.z);
+        }
+    }
+    void Fire()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            var bullet = Instantiate(_bulletController, _shotPoint.position, Quaternion.identity);
+            bullet.SetDirection(transform.localScale.x > 0 ? Vector2.right : Vector2.left);
+            _animator.SetTrigger("shotFired");
         }
     }
     void OnDrawGizmosSelected()

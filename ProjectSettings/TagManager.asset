@@ -12,8 +12,8 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
-  - 
+  - Shot
+  - Player
   - 
   - 
   - 
@@ -40,6 +40,18 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 4081579855
+    locked: 0
+  - name: Shot
+    uniqueID: 1778803169
+    locked: 0
+  - name: Enemy
+    uniqueID: 1639330243
+    locked: 0
+  - name: Palyer
+    uniqueID: 104915135
     locked: 0
   m_RenderingLayers:
   - Default
