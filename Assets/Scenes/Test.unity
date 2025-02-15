@@ -5792,6 +5792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 8
   _jumpForce: 20
+  _dashSpeed: 25
   _groundCheckPoint: {fileID: 2100956571}
   _whatIsGround:
     serializedVersion: 2
@@ -5800,6 +5801,13 @@ MonoBehaviour:
   _animator: {fileID: 2035777109}
   _bulletController: {fileID: 1332637814540503563, guid: 4ca46acda171fe349b7a318d3f1374bc, type: 3}
   _shotPoint: {fileID: 1080353744}
+  _dashTime: 0.2
+  _waitAfterDashing: 0.25
+  _characterRenderer: {fileID: 2035777106}
+  _afterImageRenderer: {fileID: 1110053974593645512, guid: 8a7555d89733cc64690e46592855dddb, type: 3}
+  _afterImageLifetime: 0.5
+  _timeBetweenAfterImages: 0.03333334
+  _afterImageColor: {r: 0.21176471, g: 0.7921569, b: 1, a: 0.5372549}
 --- !u!95 &265079518
 Animator:
   serializedVersion: 7

@@ -50,7 +50,7 @@ TagManager:
   - name: Enemy
     uniqueID: 1639330243
     locked: 0
-  - name: Palyer
+  - name: Player
     uniqueID: 104915135
     locked: 0
   m_RenderingLayers:
