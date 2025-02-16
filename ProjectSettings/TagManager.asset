@@ -14,8 +14,8 @@ TagManager:
   - Ground
   - Shot
   - Player
-  - 
-  - 
+  - Destructible
+  - Power Ups
   - 
   - 
   - 
@@ -52,6 +52,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 104915135
+    locked: 0
+  - name: Power Up Texts
+    uniqueID: 2671200083
     locked: 0
   m_RenderingLayers:
   - Default

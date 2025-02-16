@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player States")]
+    [SerializeField]
+    GameObject _standing;
+    [SerializeField]
+    GameObject _ball;
     [Header("Forces")]
     [SerializeField]
     float _moveSpeed = 8f;
@@ -19,6 +24,8 @@ public class PlayerController : MonoBehaviour
     [Header("Animations")]
     [SerializeField]
     Animator _animator;
+    [SerializeField]
+    Animator _ballAnimator;
     [Header("Bullet")]
     [SerializeField]
     BulletController _bulletController;
@@ -29,6 +36,10 @@ public class PlayerController : MonoBehaviour
     float _dashTime = 0.2f;
     [SerializeField]
     float _waitAfterDashing = 0.25f;
+    [SerializeField]
+    float _waitToBall = 0.5f;
+    [SerializeField]
+    float _waitToStand = 0.5f;
     [Header("After-Image Effect")]
     [SerializeField]
     SpriteRenderer _characterRenderer;
@@ -40,6 +51,11 @@ public class PlayerController : MonoBehaviour
     float _timeBetweenAfterImages = 0.1f;
     [SerializeField]
     Color _afterImageColor;
+    [Header("Bomb")]
+    [SerializeField]
+    Transform _bombPoint;
+    [SerializeField]
+    GameObject _bomb;
 
     Rigidbody2D _body;
     bool _isOnGround;
@@ -49,10 +65,14 @@ public class PlayerController : MonoBehaviour
     float _dashCounter;
     float _afterImageCounter;
     float _dashRechargeCounter;
+    float _ballCounter;
+    float _standingCounter;
+    PlayerAbilityTracker _playerAbilityTracker;
     void Start()
     {
         _body = GetComponent<Rigidbody2D>();
         _originalScale = transform.localScale;
+        _playerAbilityTracker = GetComponent<PlayerAbilityTracker>();
     }
     void Update()
     {
@@ -61,9 +81,16 @@ public class PlayerController : MonoBehaviour
         Jump();
         Flip();
         Fire();
+        Bomb();
+        BallMode();
+        StandingMode();
     }
     void Dash()
     {
+        if (IsBall() || !_playerAbilityTracker.CanDash)
+            return;
+
+
         if(_dashRechargeCounter > 0)
             _dashRechargeCounter -= Time.deltaTime;
 
@@ -102,22 +129,32 @@ public class PlayerController : MonoBehaviour
             return;
 
         float speed = Input.GetAxisRaw("Horizontal");
-        _animator.SetFloat("speed", Mathf.Abs(speed));
+        
         _body.linearVelocity = new Vector2(speed * _moveSpeed, _body.linearVelocity.y);
+
+        if(IsStanding())
+            _animator.SetFloat("speed", Mathf.Abs(speed));
+
+        if (IsBall())
+            _ballAnimator.SetFloat("speed", Mathf.Abs(speed));
     }
     void Jump()
-    {
+    {        
         _isOnGround = Physics2D.OverlapCircle(_groundCheckPoint.position, _groundCheckRadius, _whatIsGround);
-        _animator.SetBool("isOnGround", _isOnGround);
+        
+        if(IsStanding())
+            _animator.SetBool("isOnGround", _isOnGround);      
 
-        if (Input.GetButtonDown("Jump") && (_isOnGround || _canDoubleJump))
+        if (Input.GetButtonDown("Jump") && (_isOnGround || (_canDoubleJump && _playerAbilityTracker.CanDoubleJump)))
         {
             if (_isOnGround)
                 _canDoubleJump = true;
             else
             {
                 _canDoubleJump = false;
-                _animator.SetTrigger("doubleJump");
+
+                if (IsStanding())
+                    _animator.SetTrigger("doubleJump");
             }                
 
             _body.linearVelocity = new Vector2(_body.linearVelocity.x, _jumpForce);
@@ -139,17 +176,73 @@ public class PlayerController : MonoBehaviour
     }
     void Fire()
     {
+        if (IsBall())
+            return;
+
         if (Input.GetButtonDown("Fire1"))
         {
             var bullet = Instantiate(_bulletController, _shotPoint.position, Quaternion.identity);
             bullet.SetDirection(transform.localScale.x > 0 ? Vector2.right : Vector2.left);
+            
             _animator.SetTrigger("shotFired");
         }
     }
+    void Bomb()
+    {
+        if (IsStanding() || !_playerAbilityTracker.CanDropBomb)
+            return;
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Instantiate(_bomb, _bombPoint.position, Quaternion.identity);
+        }
+    }
+    void BallMode()
+    {
+        if (IsBall() || !_playerAbilityTracker.CanBecomeBall)
+            return;
+
+        if (Input.GetAxisRaw("Vertical") < -0.9f)
+        {
+            _ballCounter -= Time.deltaTime;
+
+            if (_ballCounter <= 0)
+                SetPlayerState(PlayerState.Ball);
+        }
+        else
+            _ballCounter = _waitToBall;
+    }
+    void StandingMode()
+    {
+        if(IsStanding())
+            return;
+
+        if (Input.GetAxisRaw("Vertical") > 0.9f)
+        {
+            _standingCounter -= Time.deltaTime;
+
+            if (_standingCounter <= 0)
+                SetPlayerState(PlayerState.Standing);
+        }
+        else
+            _standingCounter = _waitToStand;
+    }
+    void SetPlayerState(PlayerState playerState)
+    {
+        _standing.SetActive(playerState == PlayerState.Standing);
+        _ball.SetActive(playerState == PlayerState.Ball);
+    }
     bool IsDashing() => _dashCounter > 0;
+    bool IsStanding() => _standing.activeSelf;
+    bool IsBall() => _ball.activeSelf;
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_groundCheckPoint.position, _groundCheckRadius);
+    }
+    enum PlayerState
+    {
+        Standing,
+        Ball
     }
 }
