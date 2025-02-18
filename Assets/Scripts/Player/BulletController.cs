@@ -8,6 +8,8 @@ public class BulletController : MonoBehaviour
     Vector2 _direction;
     [SerializeField]
     ParticleSystem _shotImpact;
+    [SerializeField]
+    int _damage = 10;
 
     Rigidbody2D _body;
 
@@ -23,6 +25,11 @@ public class BulletController : MonoBehaviour
     {
         Instantiate(_shotImpact, transform.position, Quaternion.identity);
         Destroy(gameObject);
+
+        if (other.TryGetComponent(out EnemyHealthController enemy))
+        {
+            enemy.DamageEnemy(_damage);
+        }
     }
     public void SetDirection(Vector2 direction) => _direction = direction;
 }

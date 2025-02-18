@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_player is not null)
+        if(_player != null)
         {
             transform.position = new Vector3(
                 Mathf.Clamp(_player.transform.position.x, _cameraBox.bounds.min.x + halfWidth, _cameraBox.bounds.max.x - halfWidth),

@@ -28,7 +28,7 @@ public class BombController : MonoBehaviour
     }
     void Explode()
     {
-        if(_explosion is not null)
+        if(_explosion != null)
             Instantiate(_explosion, transform.position, transform.rotation);
 
         Destroy(gameObject);
