@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        _player = FindAnyObjectByType<PlayerController>();
+        _player = PlayerHealthController.Instance.GetComponent<PlayerController>();
         var camera = Camera.main;
         halfHeight = camera.orthographicSize;
         halfWidth = halfHeight * camera.aspect;

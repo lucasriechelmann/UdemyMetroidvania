@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float _waitToBall = 0.5f;
     [SerializeField]
-    float _waitToStand = 0.5f;
+    float _waitToStand = 0.5f;    
     [Header("After-Image Effect")]
     [SerializeField]
     SpriteRenderer _characterRenderer;
@@ -245,4 +245,5 @@ public class PlayerController : MonoBehaviour
         Standing,
         Ball
     }
+    public void SetPlayerStanding() => SetPlayerState(PlayerState.Standing);
 }
