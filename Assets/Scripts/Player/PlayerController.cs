@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     GameObject _standing;
     [SerializeField]
     GameObject _ball;
+    [SerializeField]
+    bool _canMove;
     [Header("Forces")]
     [SerializeField]
     float _moveSpeed = 8f;
@@ -73,16 +75,25 @@ public class PlayerController : MonoBehaviour
         _body = GetComponent<Rigidbody2D>();
         _originalScale = transform.localScale;
         _playerAbilityTracker = GetComponent<PlayerAbilityTracker>();
+        _canMove = true;
     }
     void Update()
     {
-        Dash();
-        Move();
-        Jump();
-        Flip();
-        Fire();
-        Bomb();
-        BallMode();
+        if (_canMove)
+        {
+            Dash();
+            Move();
+            Jump();
+            Flip();
+            Fire();
+            Bomb();            
+        }
+        else
+        {
+            _body.linearVelocity = Vector2.zero;
+        }
+
+            BallMode();
         StandingMode();
     }
     void Dash()
@@ -246,4 +257,18 @@ public class PlayerController : MonoBehaviour
         Ball
     }
     public void SetPlayerStanding() => SetPlayerState(PlayerState.Standing);
+    public void SetCanMove(bool value) => _canMove = value;
+    public void MoveTo(Vector2 position)
+    {
+        float speed = transform.position.x != position.x ? 1 : 0;
+
+        transform.position = position;
+
+        if (IsStanding())
+            _animator.SetFloat("speed", Mathf.Abs(speed));
+
+        if (IsBall())
+            _ballAnimator.SetFloat("speed", Mathf.Abs(speed));
+
+    }
 }

@@ -38,11 +38,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 4081579855
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
-    uniqueID: 4081579855
+  - name: Ground
+    uniqueID: 993843115
     locked: 0
   - name: Shot
     uniqueID: 1778803169
