@@ -30,6 +30,11 @@ public class BulletController : MonoBehaviour
         {
             enemy.DamageEnemy(_damage);
         }
+
+        if (other.TryGetComponent(out BossHealthController boss))
+        {
+            boss.TakeDamage(_damage);
+        }
     }
     public void SetDirection(Vector2 direction) => _direction = direction;
 }
