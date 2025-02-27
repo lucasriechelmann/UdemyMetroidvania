@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if (_canMove)
+        if (_canMove && Time.timeScale != 0)
         {
             Dash();
             Move();

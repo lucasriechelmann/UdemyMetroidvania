@@ -12,7 +12,7 @@ public class RespawnController : MonoBehaviour
     GameObject _deathEffect;
     GameObject _player;
     
-    public static RespawnController Instance { get; private set; }
+    public static RespawnController Instance { get; set; }
     void Awake()
     {
         if (Instance == null)

@@ -34,7 +34,7 @@ public class EnemyPatroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _hitWall = Physics2D.OverlapCircle(_wallCheckPoint.position, _wallCheckDistance, _groundLayer);
+        _hitWall = Physics2D.OverlapCircle(_wallCheckPoint.position, _wallCheckDistance, _groundLayer);        
 
         if (Mathf.Abs(transform.position.x - GetCurrentPatrolPointX()) > 0.2)
         {

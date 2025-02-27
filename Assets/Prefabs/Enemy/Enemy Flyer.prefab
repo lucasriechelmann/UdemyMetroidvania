@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6396868985178478371}
   - component: {fileID: 7652822806600478304}
   - component: {fileID: 6962187431972857920}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 2959786393533827902}
   - component: {fileID: 4993989324052240962}
   - component: {fileID: 8927072882037195423}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Enemy Flyer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

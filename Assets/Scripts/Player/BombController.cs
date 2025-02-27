@@ -10,7 +10,10 @@ public class BombController : MonoBehaviour
     float _blastRange = 1.5f;
     [SerializeField]
     LayerMask _whatIsDestructible;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField]
+    int _damage = 25;
+    [SerializeField]
+    LayerMask _whatIsDamagable;
     void Start()
     {
         
@@ -34,6 +37,7 @@ public class BombController : MonoBehaviour
         Destroy(gameObject);
 
         DestroyObjects();
+        DamageEnemies();
     }
     void DestroyObjects()
     {
@@ -42,6 +46,15 @@ public class BombController : MonoBehaviour
         foreach (Collider2D obj in objectsToDestroy)
         {
             Destroy(obj.gameObject);
+        }
+    }
+    void DamageEnemies()
+    {
+        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, _blastRange, _whatIsDamagable);
+
+        foreach (Collider2D enemy in enemiesToDamage)
+        {
+            enemy.GetComponent<EnemyHealthController>()?.DamageEnemy(_damage);
         }
     }
     private void OnDrawGizmosSelected()
