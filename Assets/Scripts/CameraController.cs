@@ -14,6 +14,8 @@ public class CameraController : MonoBehaviour
         var camera = Camera.main;
         halfHeight = camera.orthographicSize;
         halfWidth = halfHeight * camera.aspect;
+
+        AudioManager.Instance.PlayLevelMusic();
     }
 
     // Update is called once per frame

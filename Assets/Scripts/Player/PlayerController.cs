@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviour
         {
             _dashCounter = _dashTime;
             ShowAfterImage();
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.PlayerDash);
         }
 
         if (_dashCounter > 0)
@@ -166,7 +167,13 @@ public class PlayerController : MonoBehaviour
 
                 if (IsStanding())
                     _animator.SetTrigger("doubleJump");
-            }                
+                
+            }
+
+            if (_canDoubleJump)
+                AudioManager.Instance.PlaySFX(AudioManager.SFX.PlayerJump);
+            else
+                AudioManager.Instance.PlaySFX(AudioManager.SFX.PlayerDoubleJump);
 
             _body.linearVelocity = new Vector2(_body.linearVelocity.x, _jumpForce);
         }
@@ -206,6 +213,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             Instantiate(_bomb, _bombPoint.position, Quaternion.identity);
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.PlayerMine);
         }
     }
     void BallMode()
@@ -218,7 +226,10 @@ public class PlayerController : MonoBehaviour
             _ballCounter -= Time.deltaTime;
 
             if (_ballCounter <= 0)
+            {
                 SetPlayerState(PlayerState.Ball);
+                AudioManager.Instance.PlaySFX(AudioManager.SFX.PlayerBall);
+            }
         }
         else
             _ballCounter = _waitToBall;
@@ -233,7 +244,11 @@ public class PlayerController : MonoBehaviour
             _standingCounter -= Time.deltaTime;
 
             if (_standingCounter <= 0)
+            {
                 SetPlayerState(PlayerState.Standing);
+                AudioManager.Instance.PlaySFX(AudioManager.SFX.PlayerFromBall);
+            }
+                
         }
         else
             _standingCounter = _waitToStand;

@@ -39,6 +39,7 @@ public class PlayerHealthController : MonoBehaviour
     public void DamagePlayer(int damageAmount)
     {
         _currentHealth -= damageAmount;
+        AudioManager.Instance.PlaySFX(AudioManager.SFX.PlayerHurt);
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;

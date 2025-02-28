@@ -16,6 +16,7 @@ public class BulletController : MonoBehaviour
     void Start()
     {
         _body = GetComponent<Rigidbody2D>();
+        AudioManager.Instance.PlaySFX(AudioManager.SFX.PlayerShoot);
     }    
     void Update()
     {
@@ -28,11 +29,13 @@ public class BulletController : MonoBehaviour
 
         if (other.TryGetComponent(out EnemyHealthController enemy))
         {
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.BulletImpact);
             enemy.DamageEnemy(_damage);
         }
 
         if (other.TryGetComponent(out BossHealthController boss))
         {
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.BulletImpact);
             boss.TakeDamage(_damage);
         }
     }

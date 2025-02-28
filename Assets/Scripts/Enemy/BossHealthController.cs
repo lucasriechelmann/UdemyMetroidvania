@@ -32,6 +32,7 @@ public class BossHealthController : MonoBehaviour
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.BossDeath);
             _theBoss.EndBattle();
         }
 

@@ -12,7 +12,9 @@ public class EnemyHealthController : MonoBehaviour
 
         if(_maxHealth <= 0)
         {
-            if(_deathEffect != null)
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.EnemyExplode);
+
+            if (_deathEffect != null)
                 Instantiate(_deathEffect, transform.position, Quaternion.identity);
 
             Destroy(gameObject);

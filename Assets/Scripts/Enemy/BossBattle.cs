@@ -56,6 +56,8 @@ public class BossBattle : MonoBehaviour
 
         _activeCounter = _activeTime;
         _shootCounter = _timeBetweenShoots1;
+
+        AudioManager.Instance.PlayerBossMusic();
     }
 
     // Update is called once per frame
@@ -94,7 +96,7 @@ public class BossBattle : MonoBehaviour
 
                 _shootCounter -= Time.deltaTime;
                 if(_shootCounter <= 0)
-                {
+                {                    
                     Instantiate(_bullet, _shootPoint.position, Quaternion.identity);
                     _shootCounter = _timeBetweenShoots1;
                 }
@@ -219,6 +221,8 @@ public class BossBattle : MonoBehaviour
             {
                 Destroy(bullet.gameObject);
             }
-        }        
+        }   
+        
+        AudioManager.Instance.PlayLevelMusic();
     }
 }

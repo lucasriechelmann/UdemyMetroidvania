@@ -19,6 +19,7 @@ public class PowerUp : MonoBehaviour
             playerAbilityTracker.SetAbility(ability, true);
             Instantiate(_powerUpEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.PickupGem);
         }
     }
     void EnableMessage()

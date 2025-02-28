@@ -13,6 +13,7 @@ public class HealthPickUp : MonoBehaviour
             PlayerHealthController.Instance.HealPlayer(_healthAmount);
             Instantiate(_pickUpEffect, transform.position, transform.rotation);
             Destroy(gameObject);
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.PickupGem);
         }
     }
 }

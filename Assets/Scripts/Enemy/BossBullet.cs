@@ -16,6 +16,7 @@ public class BossBullet : MonoBehaviour
         Vector3 direction = transform.position - PlayerHealthController.Instance.transform.position;
         float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        AudioManager.Instance.PlaySFX(AudioManager.SFX.BossShot);
     }
     void Update()
     {
@@ -25,6 +26,7 @@ public class BossBullet : MonoBehaviour
     {
         if(other.gameObject.TryGetComponent(out PlayerHealthController player))
         {
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.BossImpact);
             player.DamagePlayer(_damage);            
         }
 
